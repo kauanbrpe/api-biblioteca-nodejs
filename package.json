@@ -1,0 +1,35 @@
+{
+  "name": "projeto-api-biblioteca",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dist": "tsup src",
+    "start:dev": "tsx --env-file=.env src/server.ts",
+    "start:watch": "tsx watch --env-file=.env  src/server.ts",
+    "start:dist": "npm run dist && node dist/src/index.js",
+    "postinstall": "prisma generate",
+    "build:render": "npm install && npx prisma generate && npx prisma migrate deploy && npm run dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^20.11.30",
+    "eslint": "^10.7.0",
+    "prettier": "^3.9.5",
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.8.0",
+    "@scalar/express-api-reference": "^0.10.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3",
+    "prisma": "^7.8.0",
+    "zod": "^4.4.3"
+  }
+}
