@@ -11,3 +11,70 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  role isAdmin @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  loans Loan[]
+  
+  @@map("users")
+}
+
+model Author {
+  id Int @id @default(autoincrement())
+  name String
+  bio String?
+  birthDate DateTime?
+  nationality String?
+
+  books Book[]
+
+  @@map("authors")
+}
+
+model Book {
+  id Int @id @default(autoincrement())
+  title String
+  isbn String @unique
+  publishedYear Int
+  totalCopies Int
+  avaiableCopies Int
+  author Author @relation(fields: [authorId], references: [id])
+  authorId Int
+  createdAt DateTime @default(now())
+
+  loans Loan[]
+
+  @@map("books")
+}
+
+model Loan {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  book Book @relation(fields: [bookId], references: [id])
+  bookId Int
+  loanDate DateTime
+  dueDate DateTime
+  returnDate DateTime?
+  status statusEnum @default(ACTIVE) 
+
+  @@map("loans")
+}
+
+enum isAdmin {
+  USER
+  ADMIN
+}
+
+enum statusEnum {
+  ACTIVE
+  RETURNED
+  OVERDUE
+}

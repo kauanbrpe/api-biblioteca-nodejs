@@ -1,5 +1,7 @@
 # 🚀 API - Biblioteca
 
+![status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+
 > Como já é tradição minha, todas as férias da faculdade eu faço uma API de Biblioteca. Já foram feitos, até agora, com as linguagens Java e C Sharp (Julho de 2025 e Janeiro de 2026). Agora fiz com a linguagem TypeScript, utilizando Node.Js, Express, MongoDB e PostgreSQL.
 
 ---
@@ -27,6 +29,7 @@
 data/                 # Banco de Dados (uso local via Docker)
 node_modules/         # Dependências do projeto
 prisma/
+├── migrations/       # Migrações do Banco de Dados
 └── schema.prisma     # Configurações do Prisma com o Postgres
 src/
 ├── server.ts         # Entry point
@@ -64,9 +67,10 @@ DB_USER=postgres
 DB_PASSWORD=XXXXXX (senha que desejar)
 DB_NAME=api_biblioteca
 
-DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/${DB_NAME}?schema=public
+DATABASE_URL=postgresql://postgres:XXXXXX@localhost:5432/api_biblioteca?schema=public
 ```
 
+> ⚠️ **Atenção:** o `dotenv`/`tsx --env-file` **não faz interpolação de variáveis** dentro do `.env`. Ou seja, escrever `DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@...` **não funciona** — o Prisma vai receber o texto `${DB_USER}` literalmente e falhar com erro de autenticação (`P1000`). Preencha a `DATABASE_URL` sempre com os valores reais, repetindo `DB_USER`/`DB_PASSWORD`/`DB_NAME` manualmente como no exemplo acima.
 > Em produção (Render), essas variáveis são preenchidas diretamente no painel do serviço, com `MONGODB_URI` apontando para o MongoDB Atlas e `DATABASE_URL` para o PostgreSQL gerenciado pelo Render.
 
 ## 🚀 Como Rodar Localmente
@@ -123,18 +127,22 @@ npm run start:watch
 
 ### Configuração do Prisma (PostgreSQL)
 
-Para testar a sincronização com o Banco de Dados Postgres:
-
-```bash
-npx prisma db push
-```
-
-Após testar a sincronização, gere o cliente do Prisma e aplique as migrações no PostgreSQL:
+Gere o cliente do Prisma e aplique as migrações no PostgreSQL:
 
 ```bash
 npx prisma generate
 npx prisma migrate dev
 ```
+
+Na primeira execução, ele vai pedir um nome para a migration (ex: `init`) e criar o histórico em `prisma/migrations/`.
+> ⚠️ **Sobre o `prisma db push`:** evite usá-lo no fluxo normal de desenvolvimento. Ele aplica o schema direto no banco **sem** gerar arquivos de migration, o que causa um aviso de **"drift"** (divergência) na próxima vez que você rodar `prisma migrate dev`. Se isso acontecer, resolva com:
+>
+> ```bash
+> npx prisma migrate reset
+> npx prisma migrate dev
+> ```
+>
+> ⚠️ O `migrate reset` **apaga todos os dados do banco**. Use apenas em ambiente de desenvolvimento local.
 
 ### Build e produção
 
@@ -155,9 +163,9 @@ http://localhost:3000/docs
 
 ---
 
-## 🌐 Deploy
+## 🌐 Deploy 
 
-A API está disponível em produção:
+A API (ainda não) está disponível em produção:
 
 - **API / Documentação (Scalar):** [https://api-biblioteca.onrender.com/docs](https://api-biblioteca.onrender.com/docs)
 - **Hospedagem:** [Render](https://render.com) (Web Service)
