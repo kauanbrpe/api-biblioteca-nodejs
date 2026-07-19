@@ -1,12 +1,12 @@
 import mongoose, { Schema, model } from "mongoose";
 
-enum TypeEnum {
+export enum TypeEnum {
     LOAN_DUE = "LOAN_DUE",
     LOAN_OVERDUE = "LOAN_OVERDUE",
     RESERVATION_AVAILABLE = "RESERVATION_AVAILABLE"
 }
 
-interface notificationModel {
+export interface notificationModel {
     _id: mongoose.Types.ObjectId,
     userId: number,
     type: TypeEnum,
@@ -40,4 +40,4 @@ const notificationSchema = new Schema<notificationModel>({
     }
 })
 
-export const notificationModel = model<notificationModel>("NotificationModel", notificationSchema)
+export const Notification = model<notificationModel>("Notification", notificationSchema)

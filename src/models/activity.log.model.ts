@@ -7,7 +7,7 @@ enum ActionType {
     USER_REGISTERED = "USER_REGISTERED"
 }
 
-interface activityLogModel {
+export interface activityLogModel {
     _id: mongoose.Types.ObjectId,
     userId?: number,
     action: ActionType,
@@ -46,4 +46,4 @@ const activityLogSchema = new Schema<activityLogModel>({
     }
 });
 
-export const ActivityLogModel = model<activityLogModel>("ActivityLogModel", activityLogSchema);
+export const ActivityLog = model<activityLogModel>("ActivityLog", activityLogSchema);
