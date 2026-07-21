@@ -23,6 +23,30 @@
 
 ---
 
+## 🎲 Modelos do Banco de Dados
+
+### Modelo Conceitual
+
+![Modelo Conceitual](img/api-biblioteca-nodejs-modelo-conceitual.jpg)
+
+### Modelo Lógico
+
+![Modelo Lógico](img/api-biblioteca-nodejs-modelo-logico.jpg)
+
+### Divisão do Banco de Dados
+
+| Modelo | Banco de Dados |
+|---|---|
+| Autor | PostgreSQL |
+| Avaliações | MongoDB |
+| Empréstimos | PostgreSQL |
+| Livros | PostgreSQL |
+| Log de Atividade | MongoDB |
+| Notificações | MongoDB |
+| Usuário | PostgreSQL |
+
+---
+
 ## 📁 Estrutura do Projeto
 
 ```text
@@ -163,11 +187,10 @@ http://localhost:3000/docs
 
 ---
 
-## 🌐 Deploy 
+## 🌐 Deploy
 
-A API (ainda não) está disponível em produção:
+> 🚧 Ainda não publicado. Infraestrutura planejada:
 
-- **API / Documentação (Scalar):** [https://api-biblioteca.onrender.com/docs](https://api-biblioteca.onrender.com/docs)
 - **Hospedagem:** [Render](https://render.com) (Web Service)
 - **Banco relacional:** PostgreSQL gerenciado pelo Render
 - **Banco não-relacional:** [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Free Tier M0)
