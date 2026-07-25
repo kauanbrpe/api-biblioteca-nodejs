@@ -30,11 +30,18 @@ export class UserRepository {
         return prisma.user.create( { data } );
     }
 
-    async update(id: number, data: Partial<Pick<User, "name" | "email" | "password">> & { role?: roleEnum } & ( { status?: statusUserEnum })): Promise<User> {
+    async update(id: number, data: Partial<Pick<User, "name" | "email">> & { role?: roleEnum } & ( { status?: statusUserEnum })): Promise<User> {
         return prisma.user.update({
             where: { id },
             data,
         });
+    }
+
+    async updatePassword(email: string, data: Pick<User, "password">): Promise<User> {
+        return prisma.user.update({
+            where: { email },
+            data,
+        })
     }
 
     async delete(id: number): Promise<User> {

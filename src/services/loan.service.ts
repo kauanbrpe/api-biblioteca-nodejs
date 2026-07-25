@@ -7,7 +7,6 @@ import { Loan, statusLoanEnum } from "../generated/prisma";
 import { bookRepository } from "../repositories/postgres/book.repository";
 import { userRepository } from "../repositories/postgres/user.repository";
 
-
 export class LoanService {
     async getAll(query: { page?: string; limit?: string}) {
         const { page, limit, skip } = parsePagination(query);
@@ -49,7 +48,7 @@ export class LoanService {
     }
 
     async create(data: Pick<Loan, "userId" | "bookId" | "loanDate" | "dueDate">, userId?: number) {
-        await this.getById(data.userId);
+        await this.getByUserId(data.userId);
 
         const book = await bookRepository.findById(data.bookId);
         if (!book) {
@@ -126,6 +125,8 @@ export class LoanService {
             entityId: loan.id,
             metadata: data
         })
+
+        return loan;
     }
 
     async overdueLoan(id: number) {

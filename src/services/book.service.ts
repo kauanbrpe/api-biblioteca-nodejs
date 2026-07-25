@@ -47,10 +47,13 @@ export class BookService {
     }
 
     async create(data: Pick<Book, "title" | "isbn" | "publishedYear" | "totalCopies" | "avaiableCopies" | "authorId">, userId?: number) {
-        await this.getByIsbn(data.isbn);
-        
+        const existingIsbn = await bookRepository.findByIsbn(data.isbn);
+        if (existingIsbn) {
+            throw AppError.conflict('Este ISBN já está sendo utilizado');
+        }
+
         await this.getByAuthor(data.authorId);
-        
+
         const book = await bookRepository.create(data);
 
         await activityLogService.log({
@@ -65,9 +68,12 @@ export class BookService {
 
     async update(id: number, data: Partial<Pick<Book, "title" | "isbn" | "publishedYear" | "totalCopies" | "avaiableCopies" | "authorId">>, userId?: number,) {
         await this.getById(id);
-        
+
         if (data.isbn) {
-            await this.getByIsbn(data.isbn);
+            const existingIsbn = await bookRepository.findByIsbn(data.isbn);
+            if (existingIsbn && existingIsbn.id !== id) {
+                throw AppError.conflict('Este ISBN já está sendo utilizado por outro livro');
+            }
         }
 
         if (data.authorId) {

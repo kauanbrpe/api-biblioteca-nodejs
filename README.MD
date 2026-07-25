@@ -233,6 +233,9 @@ http://localhost:3000/docs
 | tsup | Bundler para build de produção | [npmjs.com/package/tsup](https://www.npmjs.com/package/tsup) | Desenvolvimento |
 | jsonwebtoken | Autenticação de Usuários | [npmjs.com/package/jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) | Produção |
 | @types/jsonwebtoken | Tipagens do jsonwebtoken para TypeScript | [npmjs.com/package/@types/jsonwebtoken](https://www.npmjs.com/package/@types/jsonwebtoken) | Desenvolvimento |
+| bcrypt | Criptografia de senhas | [npmjs.com/package/bcrypt](https://www.npmjs.com/package/bcrypt) | Produção |
+| @types/bcrypt | Tipagens do bcrypt para TypeScript | [pmjs.com/package/@types/bcrypt](https://www.npmjs.com/package/@types/bcrypt) | Desenvolvimento |
+
 
 > **Node.js**, **MongoDB**, **PostgreSQL**, **Docker**, **Render** e **MongoDB Atlas** não são pacotes **NPM**. Documentação oficial:
 > - Node.js: [nodejs.org](https://nodejs.org)
