@@ -1,10 +1,17 @@
-import { PrismaClient, Loan, statusEnum } from "../../generated/prisma";
+import { PrismaClient, Loan, statusLoanEnum } from "../../generated/prisma";
 
 const prisma = new PrismaClient();
 
 export class LoanRepository {
-    async findAll(): Promise<Loan[]> {
-        return prisma.loan.findMany();
+    async findAll(params?: { skip?: number; take?: number }): Promise<Loan[]> {
+        return prisma.loan.findMany({
+            skip: params?.skip,
+            take: params?.take,
+        });
+    }
+
+    async count(): Promise<number> {
+        return prisma.loan.count();
     }
 
     async findById(id: number): Promise<Loan | null> {
@@ -25,11 +32,11 @@ export class LoanRepository {
         });
     }
 
-    async create(data: Pick<Loan, "userId" | "bookId" | "loanDate" | "dueDate"> & { status?: statusEnum }): Promise<Loan> {
+    async create(data: Pick<Loan, "userId" | "bookId" | "loanDate" | "dueDate">): Promise<Loan> {
         return prisma.loan.create( { data } );
     }
 
-    async update(id: number, data: Partial<Pick<Loan, "userId" | "bookId" | "loanDate" | "dueDate" | "returnDate">> & { status?: statusEnum}): Promise<Loan> {
+    async update(id: number, data: Partial<Pick<Loan, "userId" | "bookId" | "loanDate" | "dueDate" | "returnDate">> & { status?: statusLoanEnum}): Promise<Loan> {
         return prisma.loan.update({
             where: { id },
             data,

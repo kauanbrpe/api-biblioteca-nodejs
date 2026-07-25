@@ -61,6 +61,7 @@ src/
 ├── routes.ts         # Definição de rotas
 ├── config/           # Configurações de instâncias (Prisma/Mongoose/env)
 ├── controllers/      # Lógica dos endpoints
+├── middlewares/      # Middlewares do Express (auth, validação, erros, logs)
 ├── models/           # Schemas do Mongoose
 ├── repositories/     # Acesso e persistência de dados (Separados por Banco de Dados)
 │   ├── mongodb/
@@ -79,6 +80,17 @@ tsconfig.json                   # Configurações do TypeScript
 
 ---
 
+## 🧩 Middlewares disponíveis
+
+| Middleware | Responsabilidade |
+|---|---|
+| `errorHandler` | Captura todos os erros da aplicação e formata a resposta HTTP |
+| `notFoundHandler` | Responde 404 para rotas inexistentes |
+| `validate` | Valida `body`/`params`/`query` da requisição com schemas Zod |
+| `authenticate` | Verifica o JWT e anexa o usuário autenticado em `req.user` |
+| `authorize` | Restringe acesso a rotas com base no `role` do usuário (`USER`/`ADMIN`) |
+| `requestLogger` | Loga método, rota, status e tempo de resposta de cada requisição |
+
 ## ⚙️ Variáveis de Ambiente
 
 Crie um arquivo `.env` na raiz do projeto (veja `.env.example` como referência):
@@ -92,6 +104,8 @@ DB_PASSWORD=XXXXXX (senha que desejar)
 DB_NAME=api_biblioteca
 
 DATABASE_URL=postgresql://postgres:XXXXXX@localhost:5432/api_biblioteca?schema=public
+
+JWT_SECRET=uma_chave_secreta_bem_grande_e_aleatoria_aqui
 ```
 
 > ⚠️ **Atenção:** o `dotenv`/`tsx --env-file` **não faz interpolação de variáveis** dentro do `.env`. Ou seja, escrever `DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@...` **não funciona** — o Prisma vai receber o texto `${DB_USER}` literalmente e falhar com erro de autenticação (`P1000`). Preencha a `DATABASE_URL` sempre com os valores reais, repetindo `DB_USER`/`DB_PASSWORD`/`DB_NAME` manualmente como no exemplo acima.
@@ -217,6 +231,8 @@ http://localhost:3000/docs
 | Prettier | Formatador de código opinativo | [npmjs.com/package/prettier](https://www.npmjs.com/package/prettier) | Desenvolvimento |
 | tsx | Executor TypeScript (dev/watch) | [npmjs.com/package/tsx](https://www.npmjs.com/package/tsx) | Desenvolvimento |
 | tsup | Bundler para build de produção | [npmjs.com/package/tsup](https://www.npmjs.com/package/tsup) | Desenvolvimento |
+| jsonwebtoken | Autenticação de Usuários | [npmjs.com/package/jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) | Produção |
+| @types/jsonwebtoken | Tipagens do jsonwebtoken para TypeScript | [npmjs.com/package/@types/jsonwebtoken](https://www.npmjs.com/package/@types/jsonwebtoken) | Desenvolvimento |
 
 > **Node.js**, **MongoDB**, **PostgreSQL**, **Docker**, **Render** e **MongoDB Atlas** não são pacotes **NPM**. Documentação oficial:
 > - Node.js: [nodejs.org](https://nodejs.org)

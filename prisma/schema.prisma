@@ -17,7 +17,8 @@ model User {
   name String
   email String @unique
   password String
-  role isAdmin @default(USER)
+  role roleEnum @default(USER)
+  status statusUserEnum @default(ACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -63,18 +64,23 @@ model Loan {
   loanDate DateTime
   dueDate DateTime
   returnDate DateTime?
-  status statusEnum @default(ACTIVE) 
+  status statusLoanEnum @default(ACTIVE) 
 
   @@map("loans")
 }
 
-enum isAdmin {
+enum roleEnum {
   USER
   ADMIN
 }
 
-enum statusEnum {
+enum statusLoanEnum {
   ACTIVE
   RETURNED
   OVERDUE
+}
+
+enum statusUserEnum {
+  ACTIVE
+  DISABLED
 }

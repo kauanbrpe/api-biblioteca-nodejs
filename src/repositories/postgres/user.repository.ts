@@ -1,10 +1,17 @@
-import { PrismaClient, User, isAdmin } from "../../generated/prisma";
+import { PrismaClient, User, roleEnum, statusUserEnum } from "../../generated/prisma";
 
 const prisma = new PrismaClient();
 
 export class UserRepository {
-    async findAll(): Promise<User[]> {
-        return prisma.user.findMany();
+    async findAll(params?: { skip?: number; take?: number }): Promise<User[]> {
+        return prisma.user.findMany({
+            skip: params?.skip,
+            take: params?.take,
+        });
+    }
+
+    async count(): Promise<number> {
+        return prisma.user.count();
     }
 
     async findById(id: number): Promise<User | null> {
@@ -13,11 +20,17 @@ export class UserRepository {
         });
     }
 
+    async findByEmail(email: string): Promise<User | null> {
+        return prisma.user.findUnique({
+            where: { email },
+        });
+    }
+
     async create(data: Pick<User, "name" | "email" | "password">): Promise<User> {
         return prisma.user.create( { data } );
     }
 
-    async update(id: number, data: Partial<Pick<User, "name" | "email" | "password">> & { status?: isAdmin }): Promise<User> {
+    async update(id: number, data: Partial<Pick<User, "name" | "email" | "password">> & { role?: roleEnum } & ( { status?: statusUserEnum })): Promise<User> {
         return prisma.user.update({
             where: { id },
             data,

@@ -3,8 +3,15 @@ import { PrismaClient, Author } from "../../generated/prisma";
 const prisma = new PrismaClient();
 
 export class AuthorRepository {
-    async findAll(): Promise<Author[]> {
-        return prisma.author.findMany();
+    async findAll(params?: { skip?: number; take?: number }): Promise<Author[]> {
+        return prisma.author.findMany({
+            skip: params?.skip,
+            take: params?.take,
+        });
+    }
+
+    async count(): Promise<number> {
+        return prisma.author.count();
     }
 
     async findById(id: number): Promise<Author | null> {
@@ -13,7 +20,7 @@ export class AuthorRepository {
         });
     }
 
-    async create(data: Pick<Author, "name" | "bio" | "birthDate" | "nationality">): Promise<Author> {
+    async create(data: Pick<Author, "name"> & Partial<Pick<Author, "bio" | "birthDate" | "nationality">>): Promise<Author> {
         return prisma.author.create( { data } );
     }
 

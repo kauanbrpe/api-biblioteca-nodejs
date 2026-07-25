@@ -3,8 +3,15 @@ import { PrismaClient, Book } from "../../generated/prisma";
 const prisma = new PrismaClient();
 
 export class BookRepository {
-    async findAll(): Promise<Book[]> {
-        return prisma.book.findMany();
+    async findAll(params?: { skip?: number; take?: number }): Promise<Book[]> {
+        return prisma.book.findMany({
+            skip: params?.skip,
+            take: params?.take,
+        });
+    }
+
+    async count(): Promise<number> {
+        return prisma.book.count();
     }
 
     async findById(id: number): Promise<Book | null> {

@@ -1,13 +1,23 @@
 import mongoose, { Schema, model } from "mongoose";
 
-enum ActionType {
+export enum ActionType {
     BOOK_CREATED = "BOOK_CREATED",
+    BOOK_UPDATED = "BOOK_UPDATED",
+    BOOK_DELETED = "BOOK_DELETED",
     LOAN_CREATED = "LOAN_CREATED",
     LOAN_RETURNED = "LOAN_RETURNED",
-    USER_REGISTERED = "USER_REGISTERED"
+    LOAN_OVERDUE = "LOAN_OVERDUE",
+    LOAN_UPDATED = "LOAN_UPDATED",
+    LOAN_DELETED = "LOAN_DELETED",
+    USER_REGISTERED = "USER_REGISTERED",
+    USER_UPDATED = "USER_UPDATED",
+    USER_DELETED = "USER_DELETED",
+    AUTHOR_CREATED = "AUTHOR_CREATED",
+    AUTHOR_UPDATED = "AUTHOR_UPDATED",
+    AUTHOR_DELETED = "AUTHOR_DELETED",
 }
 
-export interface activityLogModel {
+export interface ActivityLogModel {
     _id: mongoose.Types.ObjectId,
     userId?: number,
     action: ActionType,
@@ -17,7 +27,7 @@ export interface activityLogModel {
     createdAt: Date
 }
 
-const activityLogSchema = new Schema<activityLogModel>({
+const activityLogSchema = new Schema<ActivityLogModel>({
     userId: {
         type: Number,
         required: false,
@@ -46,4 +56,4 @@ const activityLogSchema = new Schema<activityLogModel>({
     }
 });
 
-export const ActivityLog = model<activityLogModel>("ActivityLog", activityLogSchema);
+export const ActivityLog = model<ActivityLogModel>("ActivityLog", activityLogSchema);

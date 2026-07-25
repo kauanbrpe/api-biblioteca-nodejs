@@ -6,7 +6,7 @@ export enum TypeEnum {
     RESERVATION_AVAILABLE = "RESERVATION_AVAILABLE"
 }
 
-export interface notificationModel {
+export interface NotificationModel {
     _id: mongoose.Types.ObjectId,
     userId: number,
     type: TypeEnum,
@@ -15,7 +15,7 @@ export interface notificationModel {
     createdAt: Date
 }
 
-const notificationSchema = new Schema<notificationModel>({
+const notificationSchema = new Schema<NotificationModel>({
     userId: {
         type: Number,
         required: true,
@@ -40,4 +40,4 @@ const notificationSchema = new Schema<notificationModel>({
     }
 })
 
-export const Notification = model<notificationModel>("Notification", notificationSchema)
+export const Notification = model<NotificationModel>("Notification", notificationSchema)

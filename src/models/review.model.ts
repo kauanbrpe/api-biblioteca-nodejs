@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 
-export interface reviewModel {
+export interface ReviewModel {
     _id: mongoose.Types.ObjectId,
     bookId: number,
     userId: number,
@@ -9,7 +9,7 @@ export interface reviewModel {
     createdAt: Date
 }
 
-const reviewSchema = new Schema<reviewModel>({
+const reviewSchema = new Schema<ReviewModel>({
     bookId: {
         type: Number,
         required: true,
@@ -40,4 +40,4 @@ const reviewSchema = new Schema<reviewModel>({
     }
 });
 
-export const Review = model<reviewModel>("Review", reviewSchema)
+export const Review = model<ReviewModel>("Review", reviewSchema)

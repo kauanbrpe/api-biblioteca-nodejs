@@ -21,6 +21,10 @@ const envSchema = z.object({
   DB_PASSWORD: z.string().min(1, 'DB_PASSWORD é obrigatório'),
   DB_NAME: z.string().min(1, 'DB_NAME é obrigatório'),
   DATABASE_URL: z.string().url('DATABASE_URL deve ser uma URL válida'),
+
+  JWT_SECRET: z
+    .string()
+    .min(16, 'JWT_SECRET deve ter pelo menos 16 caracteres'),
 });
 
 function loadEnv() {
