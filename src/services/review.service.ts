@@ -4,6 +4,12 @@ import { AppError } from "../utils/AppError";
 import { parsePagination, buildPaginatedResult } from "../utils/paginate";
 import { userRepository } from "../repositories/postgres/user.repository";
 import { bookRepository } from "../repositories/postgres/book.repository";
+import { roleEnum } from "../generated/prisma";
+
+interface RequestingUser {
+    id: number;
+    role: roleEnum;
+}
 
 export class ReviewService {
     async getAll(query: { page?: string; limit?: string}) {
@@ -55,20 +61,31 @@ export class ReviewService {
         return review;
     }
 
-    async update(id: string, data: { rating: number; comment: string}) {
-        await this.getById(id);
+    async update(id: string, data: { rating: number; comment: string }, requestingUserId: number) {
+        const review = await this.getById(id);
 
-        const review = await reviewRepository.update(id, data);
+        if (review.userId !== requestingUserId) {
+            throw AppError.forbidden('Você não tem permissão para editar esta avaliação');
+        }
 
-        return review;
+        const updated = await reviewRepository.update(id, data);
+
+        return updated;
     }
 
-    async delete(id: string) {
-        await this.getById(id);
+    async delete(id: string, requestingUser: RequestingUser) {
+        const review = await this.getById(id);
 
-        const review = await reviewRepository.delete(id);
+        const isOwner = review.userId === requestingUser.id;
+        const isAdmin = requestingUser.role === roleEnum.ADMIN;
 
-        return review;
+        if (!isOwner && !isAdmin) {
+            throw AppError.forbidden('Você não tem permissão para excluir esta avaliação');
+        }
+
+        const deleted = await reviewRepository.delete(id);
+
+        return deleted;
     }
 }
 

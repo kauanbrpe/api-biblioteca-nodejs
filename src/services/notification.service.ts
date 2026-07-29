@@ -42,12 +42,14 @@ export class NotificationService {
         return notification;
     }
 
-    async markAsRead(id: string) {
-        await this.getById(id);
+    async markAsRead(id: string, requestingUserId: number) {
+        const notification = await this.getById(id);
 
-        const notification = await notificationRepository.markAsRead(id);
+        if (notification.userId !== requestingUserId) {
+            throw AppError.forbidden('Você não tem permissão para acessar esta notificação.')
+        }
 
-        return notification;
+        return await notificationRepository.markAsRead(id);
     }
 
     async delete(id: string) {

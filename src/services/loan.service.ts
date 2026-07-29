@@ -60,7 +60,7 @@ export class LoanService {
         }
 
         await bookRepository.update(book.id, {
-            avaiableCopies: book.avaiableCopies -1
+            avaiableCopies: book.avaiableCopies - 1
         });
 
         const loan = await loanRepository.create(data);
@@ -99,7 +99,7 @@ export class LoanService {
         return loan;
     }
 
-    async returnLoanUpdate(id: number, data: Pick<Loan, "returnDate">, userId?: number) {
+    async returnLoanUpdate(id: number, userId?: number) {
         const existingLoan = await this.getById(id);
 
         if (existingLoan.status === statusLoanEnum.RETURNED) {
@@ -107,15 +107,15 @@ export class LoanService {
         }
 
         const loan = await loanRepository.update(id, {
-            returnDate: data.returnDate ?? new Date(),
+            returnDate: new Date(),
             status: statusLoanEnum.RETURNED
-        })
+        });
 
         const book = await bookRepository.findById(loan.bookId);
         if (book) {
             await bookRepository.update(book.id, {
                 avaiableCopies: book.avaiableCopies + 1
-            })
+            });
         }
 
         await activityLogService.log({
@@ -123,10 +123,29 @@ export class LoanService {
             action: ActionType.LOAN_RETURNED,
             entity: "Loan",
             entityId: loan.id,
-            metadata: data
-        })
+        });
 
         return loan;
+    }
+
+    async correctReturnDate(id: number, returnDate: Date, userId?: number) {
+        const loan = await this.getById(id);
+
+        if (loan.status !== statusLoanEnum.RETURNED) {
+            throw AppError.badRequest('Só é possível corrigir a data de um empréstimo já devolvido');
+        }
+
+        const updatedLoan = await loanRepository.update(id, { returnDate });
+
+        await activityLogService.log({
+            userId,
+            action: ActionType.LOAN_RETURN_DATE_CORRECTED,
+            entity: "Loan",
+            entityId: updatedLoan.id,
+            metadata: { correctedReturnDate: returnDate },
+        });
+
+        return updatedLoan;
     }
 
     async overdueLoan(id: number) {
@@ -144,7 +163,7 @@ export class LoanService {
         const isOverdue = now > new Date(loan.dueDate);
 
         if (!isOverdue) {
-            throw AppError.badRequest('Este empréstimo ainda está dentro do prazo de devolver o livro')
+            throw AppError.badRequest('Este empréstimo ainda está dentro do prazo de devolver o livro');
         }
 
         const updatedLoan = await loanRepository.update(id, {
@@ -155,10 +174,10 @@ export class LoanService {
             action: ActionType.LOAN_OVERDUE,
             entity: "Loan",
             entityId: updatedLoan.id,
-            metadata: { reason: "Marcado como atrasado"}
+            metadata: { reason: "Marcado como atrasado" }
         });
 
-        return updatedLoan
+        return updatedLoan;
     }
 
     async delete(id: number, userId?: number) {
@@ -171,7 +190,7 @@ export class LoanService {
             action: ActionType.LOAN_DELETED,
             entity: "Loan",
             entityId: id
-        })
+        });
 
         return loan;
     }
