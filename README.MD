@@ -1,6 +1,6 @@
 # 🚀 API - Biblioteca
 
-![status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![status](https://img.shields.io/badge/status-em%20homogolação-yellow)
 
 > Como já é tradição minha, todas as férias da faculdade eu faço uma API de Biblioteca. Já foram feitos, até agora, com as linguagens Java e C Sharp (Julho de 2025 e Janeiro de 2026). Agora fiz com a linguagem TypeScript, utilizando Node.Js, Express, MongoDB e PostgreSQL.
 
@@ -50,22 +50,24 @@
 ## 📁 Estrutura do Projeto
 
 ```text
-data/                 # Banco de Dados (uso local via Docker)
-node_modules/         # Dependências do projeto
+data/                 # Banco de Dados (uso local via Docker, não versionar)
+node_modules/         # Dependências do projeto (Não versionar)
 prisma/
 ├── migrations/       # Migrações do Banco de Dados
 └── schema.prisma     # Configurações do Prisma com o Postgres
 src/
 ├── server.ts         # Entry point
 ├── app.ts            # Configuração do Express
-├── routes.ts         # Definição de rotas
 ├── config/           # Configurações de instâncias (Prisma/Mongoose/env)
 ├── controllers/      # Lógica dos endpoints
 ├── middlewares/      # Middlewares do Express (auth, validação, erros, logs)
 ├── models/           # Schemas do Mongoose
+├── generated         # Pasta gerada pelo comando npx prisma generate (Não versionar)
 ├── repositories/     # Acesso e persistência de dados (Separados por Banco de Dados)
 │   ├── mongodb/
 │   └── postgres/
+├── routes/            # Definição de rotas
+├── schemas/           # Schemas Zod de validação do body das requisições
 ├── services/          # Regras de negócio da aplicação
 └── utils/             # Funções utilitárias e auxiliares
 .env                   # Variáveis de ambiente (Não versionar)
