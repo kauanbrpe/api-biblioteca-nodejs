@@ -1,6 +1,6 @@
-import { PrismaClient, Book } from "../../generated/prisma";
+import { Book } from "../../generated/prisma";
+import { prisma } from "../../config/prisma";
 
-const prisma = new PrismaClient();
 
 export class BookRepository {
     async findAll(params?: { skip?: number; take?: number }): Promise<Book[]> {

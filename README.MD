@@ -1,6 +1,6 @@
 # 🚀 API - Biblioteca
 
-![status](https://img.shields.io/badge/status-em%20homogolação-yellow)
+![status](https://img.shields.io/badge/status-homologado-yellow)
 
 > Como já é tradição minha, todas as férias da faculdade eu faço uma API de Biblioteca. Já foram feitos, até agora, com as linguagens Java e C Sharp (Julho de 2025 e Janeiro de 2026). Agora fiz com a linguagem TypeScript, utilizando Node.Js, Express, MongoDB e PostgreSQL.
 
@@ -62,7 +62,7 @@ src/
 ├── controllers/      # Lógica dos endpoints
 ├── middlewares/      # Middlewares do Express (auth, validação, erros, logs)
 ├── models/           # Schemas do Mongoose
-├── generated         # Pasta gerada pelo comando npx prisma generate (Não versionar)
+├── generated/         # Pasta gerada pelo comando npx prisma generate (Não versionar)
 ├── repositories/     # Acesso e persistência de dados (Separados por Banco de Dados)
 │   ├── mongodb/
 │   └── postgres/
@@ -225,6 +225,9 @@ http://localhost:3000/docs
 | @scalar/express-api-reference | Documentação interativa da API (OpenAPI) | [npmjs.com/package/@scalar/express-api-reference](https://www.npmjs.com/package/@scalar/express-api-reference) | Produção |
 | Prisma (CLI) | ORM para banco de dados relacional | [npmjs.com/package/prisma](https://www.npmjs.com/package/prisma) | Produção |
 | @prisma/client | Client gerado pelo Prisma | [npmjs.com/package/@prisma/client](https://www.npmjs.com/package/@prisma/client) | Produção |
+| @prisma/adapter-pg | Driver adapter que conecta o Prisma Client ao PostgreSQL usando o driver pg. Obrigatório a partir do Prisma 7, já que o client não abre mais conexão com o banco sozinho (o motor de conexão interno foi removido). | [npmjs.com/package/@prisma/adapter-pg](https://www.npmjs.com/package/@prisma/adapter-pg) | Produção |
+| pg | 	Driver nativo do Node.js para PostgreSQL. Usado internamente pelo @prisma/adapter-pg para de fato executar as queries no banco. | [npmjs.com/package/pg](https://www.npmjs.com/package/pg) | Produção |
+| @types/pg | Tipagens TypeScript do pacote pg, necessárias para autocomplete e checagem de tipos durante o desenvolvimento. | [npmjs.com/package/@types/pg](https://www.npmjs.com/package/@types/pg) | Desenvolvimento |
 | dotenv | Carrega variáveis de ambiente do arquivo .env | [npmjs.com/package/dotenv](https://www.npmjs.com/package/dotenv) | Produção |
 | @types/node | Tipagens do Node.js para TypeScript | [npmjs.com/package/@types/node](https://www.npmjs.com/package/@types/node) | Desenvolvimento |
 | @types/express | Tipagens do Express para TypeScript | [npmjs.com/package/@types/express](https://www.npmjs.com/package/@types/express) | Desenvolvimento |

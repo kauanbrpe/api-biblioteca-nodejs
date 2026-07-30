@@ -1,6 +1,5 @@
-import { PrismaClient, Loan, statusLoanEnum } from "../../generated/prisma";
-
-const prisma = new PrismaClient();
+import { Loan, statusLoanEnum } from "../../generated/prisma";
+import { prisma } from "../../config/prisma";
 
 export class LoanRepository {
     async findAll(params?: { skip?: number; take?: number }): Promise<Loan[]> {

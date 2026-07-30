@@ -87,7 +87,8 @@ export class UserService {
             entityId: user.id
         });
 
-        return user;
+        const { password: _password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
 
     async update(id: number, data: Partial<Pick<User, "name" | "email">>, requestingUser: RequestingUser) {

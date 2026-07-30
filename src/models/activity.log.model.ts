@@ -52,7 +52,7 @@ const activityLogSchema = new Schema<ActivityLogModel>({
     },
     metadata: {
         type: Schema.Types.Mixed,
-        required: true
+        default: {},
     },
     createdAt: {
         type: Date,

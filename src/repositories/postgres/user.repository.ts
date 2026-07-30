@@ -1,6 +1,5 @@
-import { PrismaClient, User, roleEnum, statusUserEnum } from "../../generated/prisma";
-
-const prisma = new PrismaClient();
+import { User, roleEnum, statusUserEnum } from "../../generated/prisma";
+import { prisma } from "../../config/prisma";
 
 export class UserRepository {
     async findAll(params?: { skip?: number; take?: number }): Promise<User[]> {
