@@ -3,7 +3,7 @@ services:
     name: api-biblioteca
     env: node
     plan: free
-    buildCommand: npm install && npm run dist
+    buildCommand: npm install --include=dev && npx prisma migrate deploy && npm run dist
     startCommand: npm run start:dist
     envVars:
       - key: PORT
