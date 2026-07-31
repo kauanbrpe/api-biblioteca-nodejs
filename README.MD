@@ -60,9 +60,12 @@ src/
 ├── app.ts            # Configuração do Express
 ├── config/           # Configurações de instâncias (Prisma/Mongoose/env)
 ├── controllers/      # Lógica dos endpoints
+├── docs/
+│   ├── paths/        # Rotas e schemas de cada entidade convertidos para OpenAPI
+│   └── openapi.ts    # Junta tudo e gera o documento OpenAPI final
 ├── middlewares/      # Middlewares do Express (auth, validação, erros, logs)
 ├── models/           # Schemas do Mongoose
-├── generated/         # Pasta gerada pelo comando npx prisma generate (Não versionar)
+├── generated/        # Pasta gerada pelo comando npx prisma generate (Não versionar)
 ├── repositories/     # Acesso e persistência de dados (Separados por Banco de Dados)
 │   ├── mongodb/
 │   └── postgres/
@@ -72,6 +75,7 @@ src/
 └── utils/             # Funções utilitárias e auxiliares
 .env                   # Variáveis de ambiente (Não versionar)
 .env.example            # Modelo das variáveis de ambiente necessárias
+.gitignore               # Arquivos e pastas ignorados pelo Git
 render.yaml               # Blueprint de configuração do Render
 docker-compose.yml         # Configurações do Container Docker (uso local)
 prisma.config.ts             # Configurações do Prisma (fora do schema.prisma)
@@ -92,6 +96,19 @@ tsconfig.json                   # Configurações do TypeScript
 | `authenticate` | Verifica o JWT e anexa o usuário autenticado em `req.user` |
 | `authorize` | Restringe acesso a rotas com base no `role` do usuário (`USER`/`ADMIN`) |
 | `requestLogger` | Loga método, rota, status e tempo de resposta de cada requisição |
+
+## 🧾 Schemas disponíveis
+
+| Schema | Responsabilidade |
+|---|---|
+| `author.schema.ts` | Valida `name`, `bio`, `birthDate`, `nationality` na criação/edição de autores |
+| `book.schema.ts` | Valida `title`, `isbn`, `publishedYear`, cópias e `authorId` na criação/edição de livros |
+| `loan.schema.ts` | Valida datas de empréstimo/devolução e a correção administrativa de `returnDate` |
+| `notification.schema.ts` | Valida `userId`, `type` (enum) e `message` na criação de notificações |
+| `review.schema.ts` | Valida `rating` (1 a 5) e `comment` na criação/edição de avaliações |
+| `user.schema.ts` | Valida login, cadastro, edição de dados, troca de senha, role e status de usuários |
+
+> Cada schema é usado pelo middleware `validate` para checar o formato dos dados **antes** da requisição chegar no controller, e também é reaproveitado em `src/docs/paths/` para gerar a documentação OpenAPI automaticamente.
 
 ## ⚙️ Variáveis de Ambiente
 
@@ -201,6 +218,8 @@ npm run start:dist
 http://localhost:3000/docs
 ```
 
+> A documentação é gerada automaticamente a partir dos schemas Zod (via `zod-openapi`) e exibida com o Scalar. Para testar rotas protegidas, use o botão **"Authorize"** e cole o token JWT obtido em `POST /users/login`.
+
 ---
 
 ## 🌐 Deploy
@@ -225,13 +244,14 @@ http://localhost:3000/docs
 | @scalar/express-api-reference | Documentação interativa da API (OpenAPI) | [npmjs.com/package/@scalar/express-api-reference](https://www.npmjs.com/package/@scalar/express-api-reference) | Produção |
 | Prisma (CLI) | ORM para banco de dados relacional | [npmjs.com/package/prisma](https://www.npmjs.com/package/prisma) | Produção |
 | @prisma/client | Client gerado pelo Prisma | [npmjs.com/package/@prisma/client](https://www.npmjs.com/package/@prisma/client) | Produção |
-| @prisma/adapter-pg | Driver adapter que conecta o Prisma Client ao PostgreSQL usando o driver pg. Obrigatório a partir do Prisma 7, já que o client não abre mais conexão com o banco sozinho (o motor de conexão interno foi removido). | [npmjs.com/package/@prisma/adapter-pg](https://www.npmjs.com/package/@prisma/adapter-pg) | Produção |
-| pg | 	Driver nativo do Node.js para PostgreSQL. Usado internamente pelo @prisma/adapter-pg para de fato executar as queries no banco. | [npmjs.com/package/pg](https://www.npmjs.com/package/pg) | Produção |
-| @types/pg | Tipagens TypeScript do pacote pg, necessárias para autocomplete e checagem de tipos durante o desenvolvimento. | [npmjs.com/package/@types/pg](https://www.npmjs.com/package/@types/pg) | Desenvolvimento |
+| @prisma/adapter-pg | Driver adapter que conecta o Prisma Client ao PostgreSQL usando o driver pg. | [npmjs.com/package/@prisma/adapter-pg](https://www.npmjs.com/package/@prisma/adapter-pg) | Produção |
+| pg | 	Driver nativo do Node.js para PostgreSQL. | [npmjs.com/package/pg](https://www.npmjs.com/package/pg) | Produção |
+| @types/pg | Tipagens TypeScript do pacote pg. | [npmjs.com/package/@types/pg](https://www.npmjs.com/package/@types/pg) | Desenvolvimento |
 | dotenv | Carrega variáveis de ambiente do arquivo .env | [npmjs.com/package/dotenv](https://www.npmjs.com/package/dotenv) | Produção |
 | @types/node | Tipagens do Node.js para TypeScript | [npmjs.com/package/@types/node](https://www.npmjs.com/package/@types/node) | Desenvolvimento |
 | @types/express | Tipagens do Express para TypeScript | [npmjs.com/package/@types/express](https://www.npmjs.com/package/@types/express) | Desenvolvimento |
-| Zod | Validação de dados schema-first | [npmjs.com/package/zod](https://www.npmjs.com/package/zod) | Produção |
+| zod | Validação de dados schema-first | [npmjs.com/package/zod](https://www.npmjs.com/package/zod) | Produção |
+| zod-openapi | Gera a especificação OpenAPI a partir dos schemas Zod, usado pelo Scalar | [npmjs.com/package/zod-openapi](https://www.npmjs.com/package/zod-openapi) | Produção |
 | ESLint | Identificação e correção de erros de código | [npmjs.com/package/eslint](https://www.npmjs.com/package/eslint) | Desenvolvimento |
 | Prettier | Formatador de código opinativo | [npmjs.com/package/prettier](https://www.npmjs.com/package/prettier) | Desenvolvimento |
 | tsx | Executor TypeScript (dev/watch) | [npmjs.com/package/tsx](https://www.npmjs.com/package/tsx) | Desenvolvimento |
