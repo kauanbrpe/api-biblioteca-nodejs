@@ -1,4 +1,4 @@
-import { User, roleEnum, statusUserEnum } from "../../generated/prisma";
+import { User, roleEnum, statusUserEnum } from "@prisma/client";
 import { prisma } from "../../config/prisma";
 
 export class UserRepository {

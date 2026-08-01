@@ -3,7 +3,7 @@ import { AppError } from "../utils/AppError";
 import { parsePagination, buildPaginatedResult } from "../utils/paginate";
 import { activityLogService } from "./activity.log.service";
 import { ActionType } from "../models/activity.log.model";
-import { Author } from "../generated/prisma";
+import { Author } from "@prisma/client";
 
 export class AuthorService {
     async getAll(query: { page?: string; limit?: string }) {

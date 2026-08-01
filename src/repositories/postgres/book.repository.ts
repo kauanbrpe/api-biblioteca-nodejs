@@ -1,4 +1,4 @@
-import { Book } from "../../generated/prisma";
+import { Book } from "@prisma/client";
 import { prisma } from "../../config/prisma";
 
 

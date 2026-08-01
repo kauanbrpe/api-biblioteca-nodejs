@@ -3,7 +3,7 @@ import { AppError } from "../utils/AppError";
 import { parsePagination, buildPaginatedResult } from "../utils/paginate";
 import { activityLogService } from "./activity.log.service";
 import { ActionType } from "../models/activity.log.model";
-import { Loan, statusLoanEnum } from "../generated/prisma";
+import { Loan, statusLoanEnum } from "@prisma/client";
 import { bookRepository } from "../repositories/postgres/book.repository";
 import { userRepository } from "../repositories/postgres/user.repository";
 

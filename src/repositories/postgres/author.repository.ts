@@ -1,5 +1,5 @@
-import { Author } from "../../generated/prisma";
-import { prisma } from "../../config/prisma";
+import { Author } from "@prisma/client";
+import { prisma } from "../../config/prisma"; 
 
 export class AuthorRepository {
     async findAll(params?: { skip?: number; take?: number }): Promise<Author[]> {

@@ -3,7 +3,7 @@ import { AppError } from "../utils/AppError";
 import { parsePagination, buildPaginatedResult } from "../utils/paginate";
 import { activityLogService } from "./activity.log.service";
 import { ActionType } from "../models/activity.log.model";
-import { Book } from "../generated/prisma";
+import { Book } from "@prisma/client";
 import { authorRepository } from "../repositories/postgres/author.repository";
 
 export class BookService {

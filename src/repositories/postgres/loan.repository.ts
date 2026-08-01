@@ -1,4 +1,4 @@
-import { Loan, statusLoanEnum } from "../../generated/prisma";
+import { Loan, statusLoanEnum } from "@prisma/client";
 import { prisma } from "../../config/prisma";
 
 export class LoanRepository {

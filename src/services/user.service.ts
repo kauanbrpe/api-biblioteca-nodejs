@@ -3,7 +3,7 @@ import { AppError } from "../utils/AppError";
 import { parsePagination, buildPaginatedResult } from "../utils/paginate";
 import { activityLogService } from "./activity.log.service";
 import { ActionType } from "../models/activity.log.model";
-import { User, roleEnum, statusUserEnum } from "../generated/prisma";
+import { User, roleEnum, statusUserEnum } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 

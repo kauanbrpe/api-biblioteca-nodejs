@@ -4,7 +4,7 @@ import { AppError } from "../utils/AppError";
 import { parsePagination, buildPaginatedResult } from "../utils/paginate";
 import { userRepository } from "../repositories/postgres/user.repository";
 import { bookRepository } from "../repositories/postgres/book.repository";
-import { roleEnum } from "../generated/prisma";
+import { roleEnum } from "@prisma/client";
 
 interface RequestingUser {
     id: number;

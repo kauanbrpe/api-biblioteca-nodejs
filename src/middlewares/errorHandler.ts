@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
-import { Prisma } from "../generated/prisma"; 
+import { Prisma } from "@prisma/client"; 
 import mongoose from 'mongoose';
 import { AppError } from '../utils/AppError';
 import { HttpStatus } from '../utils/httpStatus';
