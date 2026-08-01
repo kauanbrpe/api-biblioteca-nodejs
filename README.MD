@@ -1,6 +1,6 @@
 # 🚀 API - Biblioteca
 
-![status](https://img.shields.io/badge/status-homologado-yellow)
+![status](https://img.shields.io/badge/status-produção-red)
 
 > Como já é tradição minha, todas as férias da faculdade eu faço uma API de Biblioteca. Já foram feitos, até agora, com as linguagens Java e C Sharp (Julho de 2025 e Janeiro de 2026). Agora fiz com a linguagem TypeScript, utilizando Node.Js, Express, MongoDB e PostgreSQL.
 
@@ -224,8 +224,9 @@ http://localhost:3000/docs
 
 ## 🌐 Deploy
 
-> 🚧 Ainda não publicado. Infraestrutura planejada:
+> A API está disponível em produção:
 
+- **API / Documentação (Scalar):** [https://api-biblioteca-nodejs.onrender.com/docs](https://api-biblioteca-nodejs.onrender.com/docs)
 - **Hospedagem:** [Render](https://render.com) (Web Service)
 - **Banco relacional:** PostgreSQL gerenciado pelo Render
 - **Banco não-relacional:** [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Free Tier M0)

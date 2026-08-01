@@ -14,8 +14,9 @@ export const openApiDocument = createDocument({
         description: "API para gerenciamento de biblioteca — autores, livros, empréstimos, avaliações e notificações.",
     },
     servers: [
-        { url: "http://localhost:3000/api", description: "Desenvolvimento local" },
-    ],
+    { url: "http://localhost:3000/api", description: "Desenvolvimento local" },
+    { url: "https://api-biblioteca-nodejs.onrender.com/api", description: "Produção" },
+],
     components: {
         securitySchemes: {
             bearerAuth: {
